@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { auth, googleProvider } from "./firebase";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(null);
+  const googleLogin = async () => {
+    try {
+      await auth.signInWithPopup(googleProvider);
+      setUser(await auth.currentUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+ 
+
+  console.log(user);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <section>
+      <div>
+        <div className="buttonContainer" onClick={googleLogin}>
+          <img
+            src=""
+            alt=""
+          />
+          <button>Google Login</button>
+        </div>
+        <div className="buttonContainer" >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
+            alt=""
+          />
+          <button>Facebook Login</button>
+        </div>
+        <div className="buttonContainer">
+          <img
+            src="https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/github-512.png"
+            alt=""
+          />
+          <button>Github Login</button>
+        </div>
+      </div>
+      <h1>{user?.email}</h1>
+    </section>
+    
   );
-}
+};
 
 export default App;
